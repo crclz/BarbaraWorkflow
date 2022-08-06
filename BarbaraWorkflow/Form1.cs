@@ -1,3 +1,4 @@
+using BarbaraWorkflow.Domain.Models;
 using BarbaraWorkflow.Infra;
 
 namespace BarbaraWorkflow
@@ -10,6 +11,8 @@ namespace BarbaraWorkflow
 
         KeyboardHook AltWHook { get; set; }
         KeyboardHook AltShiftWHook { get; set; }
+
+        HintStatus hintStatus { get; set; }
 
         public Form1()
         {
@@ -27,17 +30,22 @@ namespace BarbaraWorkflow
             AltShiftWHook = new KeyboardHook();
             AltShiftWHook.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.Left);
             AltShiftWHook.KeyPressed += AltShiftWHook_KeyPressed;
+
+            hintStatus = HintStatus.CreateFromText(File.ReadAllText(@"C:\Users\ThePlayer\Desktop\1.txt"));
+            mainLabel.Text = hintStatus.GetCurrentHint(2, 2);
+
         }
 
         private void AltShiftWHook_KeyPressed(object? sender, KeyPressedEventArgs e)
         {
-            mainLabel.Text += "S";
-
+            hintStatus.TryBackward();
+            mainLabel.Text = hintStatus.GetCurrentHint(2, 2);
         }
 
         private void AltWHook_KeyPressed(object? sender, KeyPressedEventArgs e)
         {
-            mainLabel.Text += "W";
+            hintStatus.TryForward();
+            mainLabel.Text = hintStatus.GetCurrentHint(2, 2);
         }
 
         private void OptimizeHook_KeyPressed(object? sender, KeyPressedEventArgs e)
