@@ -8,12 +8,36 @@ namespace BarbaraWorkflow
 
         KeyboardHook OptimizeHook { get; set; }
 
+        KeyboardHook AltWHook { get; set; }
+        KeyboardHook AltShiftWHook { get; set; }
+
         public Form1()
         {
             InitializeComponent();
+
             OptimizeHook = new KeyboardHook();
             OptimizeHook.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.F12);
             OptimizeHook.KeyPressed += OptimizeHook_KeyPressed;
+
+
+            AltWHook = new KeyboardHook();
+            AltWHook.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.Right);
+            AltWHook.KeyPressed += AltWHook_KeyPressed;
+
+            AltShiftWHook = new KeyboardHook();
+            AltShiftWHook.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.Left);
+            AltShiftWHook.KeyPressed += AltShiftWHook_KeyPressed;
+        }
+
+        private void AltShiftWHook_KeyPressed(object? sender, KeyPressedEventArgs e)
+        {
+            mainLabel.Text += "S";
+
+        }
+
+        private void AltWHook_KeyPressed(object? sender, KeyPressedEventArgs e)
+        {
+            mainLabel.Text += "W";
         }
 
         private void OptimizeHook_KeyPressed(object? sender, KeyPressedEventArgs e)
@@ -44,8 +68,8 @@ namespace BarbaraWorkflow
             if (IsOptimized)
             {
                 topmostButton.Hide();
-                BackColor = Color.LimeGreen;
-                TransparencyKey = Color.LimeGreen;
+                BackColor = Color.Green;
+                TransparencyKey = Color.Green;
                 ControlBox = false;
                 FormBorderStyle = FormBorderStyle.None;
             }
@@ -56,6 +80,7 @@ namespace BarbaraWorkflow
                 TransparencyKey = Color.Empty;
                 ControlBox = true;
                 FormBorderStyle = FormBorderStyle.Sizable;
+                mainLabel.ForeColor = Color.Blue;
             }
         }
 

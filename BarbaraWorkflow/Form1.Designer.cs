@@ -30,11 +30,12 @@
         {
             this.topmostButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.mainLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // topmostButton
             // 
-            this.topmostButton.Location = new System.Drawing.Point(28, 37);
+            this.topmostButton.Location = new System.Drawing.Point(7, 216);
             this.topmostButton.Name = "topmostButton";
             this.topmostButton.Size = new System.Drawing.Size(75, 23);
             this.topmostButton.TabIndex = 0;
@@ -51,11 +52,22 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "alt+F12";
             // 
+            // mainLabel
+            // 
+            this.mainLabel.AutoSize = true;
+            this.mainLabel.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.mainLabel.Location = new System.Drawing.Point(7, 22);
+            this.mainLabel.Name = "mainLabel";
+            this.mainLabel.Size = new System.Drawing.Size(341, 50);
+            this.mainLabel.TabIndex = 3;
+            this.mainLabel.Text = "L蛇肠之路T 右下机关\r\nTR狭间之街B2 左 机关 左 机关 左 牛头";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 439);
+            this.Controls.Add(this.mainLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.topmostButton);
             this.Name = "Form1";
@@ -71,5 +83,6 @@
 
         private Button topmostButton;
         private Label label1;
+        private Label mainLabel;
     }
 }
