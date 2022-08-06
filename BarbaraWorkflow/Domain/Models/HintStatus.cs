@@ -18,8 +18,11 @@ namespace BarbaraWorkflow.Domain.Models
             this.content = content.ToList();
         }
 
-        public string GetCurrentHint(int leftLines, int rightLines)
+        public string GetCurrentHint(int leftLines = 0, int rightLines = 1)
         {
+            leftLines++;
+            rightLines++;
+
             var midPart = $"【{content[cursor].Trim()}】";
 
             var leftParts = new List<string>();

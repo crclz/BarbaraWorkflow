@@ -32,20 +32,20 @@ namespace BarbaraWorkflow
             AltShiftWHook.KeyPressed += AltShiftWHook_KeyPressed;
 
             hintStatus = HintStatus.CreateFromText(File.ReadAllText(@"C:\Users\ThePlayer\Desktop\1.txt"));
-            mainLabel.Text = hintStatus.GetCurrentHint(2, 2);
+            mainLabel.Text = hintStatus.GetCurrentHint();
 
         }
 
         private void AltShiftWHook_KeyPressed(object? sender, KeyPressedEventArgs e)
         {
             hintStatus.TryBackward();
-            mainLabel.Text = hintStatus.GetCurrentHint(2, 2);
+            mainLabel.Text = hintStatus.GetCurrentHint();
         }
 
         private void AltWHook_KeyPressed(object? sender, KeyPressedEventArgs e)
         {
             hintStatus.TryForward();
-            mainLabel.Text = hintStatus.GetCurrentHint(2, 2);
+            mainLabel.Text = hintStatus.GetCurrentHint();
         }
 
         private void OptimizeHook_KeyPressed(object? sender, KeyPressedEventArgs e)
