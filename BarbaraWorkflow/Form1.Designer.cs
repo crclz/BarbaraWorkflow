@@ -55,10 +55,10 @@
             // mainLabel
             // 
             this.mainLabel.AutoSize = true;
-            this.mainLabel.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.mainLabel.Font = new System.Drawing.Font("宋体", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.mainLabel.Location = new System.Drawing.Point(7, 22);
             this.mainLabel.Name = "mainLabel";
-            this.mainLabel.Size = new System.Drawing.Size(341, 50);
+            this.mainLabel.Size = new System.Drawing.Size(614, 66);
             this.mainLabel.TabIndex = 3;
             this.mainLabel.Text = "L蛇肠之路T 右下机关\r\nTR狭间之街B2 左 机关 左 机关 左 牛头";
             // 

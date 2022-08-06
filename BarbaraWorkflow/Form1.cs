@@ -68,19 +68,20 @@ namespace BarbaraWorkflow
             if (IsOptimized)
             {
                 topmostButton.Hide();
-                BackColor = Color.Green;
-                TransparencyKey = Color.Green;
+                BackColor = Color.Black;
+                TransparencyKey = Color.Black;
                 ControlBox = false;
                 FormBorderStyle = FormBorderStyle.None;
             }
             else
             {
+                mainLabel.ForeColor = Color.LightYellow;
+
                 topmostButton.Show();
                 BackColor = SystemColors.Control;
                 TransparencyKey = Color.Empty;
                 ControlBox = true;
                 FormBorderStyle = FormBorderStyle.Sizable;
-                mainLabel.ForeColor = Color.Blue;
             }
         }
 
