@@ -31,7 +31,7 @@ namespace BarbaraWorkflow
             AltShiftWHook.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.Left);
             AltShiftWHook.KeyPressed += AltShiftWHook_KeyPressed;
 
-            hintStatus = HintStatus.CreateFromText(File.ReadAllText(@"C:\Users\ThePlayer\Desktop\1.txt"));
+            hintStatus = HintStatus.CreateFromText(File.ReadAllText(@"C:\Users\ThePlayer\Desktop\repos\BarbaraWorkflow\routes\minus6.txt"));
             mainLabel.Text = hintStatus.GetCurrentHint();
 
         }
@@ -55,13 +55,18 @@ namespace BarbaraWorkflow
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            SetTopmost(true);
+        }
 
+        private void SetTopmost(bool topMost)
+        {
+            TopMost = topMost;
+            topmostButton.Text = $"÷√∂•: {Convert.ToInt32(TopMost)}";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            TopMost = !TopMost;
-            topmostButton.Text = $"÷√∂•: {Convert.ToInt32(TopMost)}";
+            SetTopmost(!TopMost);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -80,16 +85,19 @@ namespace BarbaraWorkflow
                 TransparencyKey = Color.Black;
                 ControlBox = false;
                 FormBorderStyle = FormBorderStyle.None;
+
+                mainLabel.ForeColor = Color.LightYellow;
             }
             else
             {
-                mainLabel.ForeColor = Color.LightYellow;
 
                 topmostButton.Show();
                 BackColor = SystemColors.Control;
                 TransparencyKey = Color.Empty;
                 ControlBox = true;
                 FormBorderStyle = FormBorderStyle.Sizable;
+
+                mainLabel.ForeColor = Color.Black;
             }
         }
 

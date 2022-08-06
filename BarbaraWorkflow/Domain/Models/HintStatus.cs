@@ -18,7 +18,7 @@ namespace BarbaraWorkflow.Domain.Models
             this.content = content.ToList();
         }
 
-        public string GetCurrentHint(int leftLines = 0, int rightLines = 1)
+        public string GetCurrentHint(int leftLines = 0, int rightLines = 0)
         {
             leftLines++;
             rightLines++;
