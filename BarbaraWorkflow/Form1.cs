@@ -31,7 +31,7 @@ namespace BarbaraWorkflow
             BackwardHotkey.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.Left);
             BackwardHotkey.KeyPressed += BackwardHotkey_KeyPressed;
 
-            hintStatus = HintStatus.CreateFromText(File.ReadAllText(@"C:\Users\ThePlayer\Desktop\repos\BarbaraWorkflow\routes\ •“≈ŒÔ-±À“Ù–«€Û-BV1q44y137NC-A.txt"));
+            hintStatus = HintStatus.CreateFromText(File.ReadAllText(@"C:\Users\ThePlayer\Desktop\repos\BarbaraWorkflow\routes\ •“≈ŒÔ-±À“Ù–«€Û-Aœﬂ-BV1q44y137NC.txt"));
             mainLabel.Text = hintStatus.GetCurrentHint();
 
         }
