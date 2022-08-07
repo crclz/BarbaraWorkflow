@@ -18,49 +18,15 @@ namespace BarbaraWorkflow.Domain.Models
             this.content = content.ToList();
         }
 
-        public string GetCurrentHint(int leftLines = 0, int rightLines = 0)
+        public string GetCurrentHint()
         {
-            leftLines++;
-            rightLines++;
-
-            var midPart = $"【{content[cursor].Trim()}】";
-
-            var leftParts = new List<string>();
-
-            for (var i = cursor - 1; i >= 0; i--)
+            var hint = content[cursor];
+            if (hint.Trim() == "")
             {
-                var part = content[i];
-                leftParts.Add(part);
-                if (part == "\n")
-                {
-                    leftLines--;
-                }
-
-                if (leftLines == 0)
-                {
-                    break;
-                }
+                return "<空行>";
             }
 
-            var rightParts = new List<string>();
-
-            for (var i = cursor + 1; i < content.Count; i++)
-            {
-                var part = content[i];
-                rightParts.Add(part);
-                if (part == "\n")
-                {
-                    rightLines--;
-                }
-
-                if (rightLines == 0)
-                {
-                    break;
-                }
-            }
-
-            var allParts = leftParts.AsEnumerable().Reverse().Append(midPart).Concat(rightParts).ToList();
-            return string.Join("", allParts).Trim();
+            return hint;
         }
 
         public bool TryBackward()
@@ -68,11 +34,6 @@ namespace BarbaraWorkflow.Domain.Models
             if (cursor > 0)
             {
                 cursor--;
-                if (content[cursor] == "\n" && cursor > 0)
-                {
-                    cursor--;
-                }
-                return true;
             }
             return false;
         }
@@ -82,11 +43,6 @@ namespace BarbaraWorkflow.Domain.Models
             if (cursor < content.Count - 1)
             {
                 cursor++;
-                if (content[cursor] == "\n" && cursor < content.Count - 1)
-                {
-                    cursor++;
-                }
-
                 return true;
             }
             return false;
@@ -101,11 +57,7 @@ namespace BarbaraWorkflow.Domain.Models
 
             foreach (var line in s.Split("\n"))
             {
-                foreach (var part in line.Split(" "))
-                {
-                    parts.Add(part + " ");
-                }
-                parts.Add("\n");
+                parts.Add(line);
             }
 
             return new HintStatus(parts);
