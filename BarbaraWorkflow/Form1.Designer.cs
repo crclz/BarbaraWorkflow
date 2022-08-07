@@ -46,19 +46,21 @@
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("华文中宋", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.ForeColor = System.Drawing.Color.MediumAquamarine;
             this.label1.Location = new System.Drawing.Point(7, 5);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 17);
+            this.label1.Size = new System.Drawing.Size(195, 23);
             this.label1.TabIndex = 1;
-            this.label1.Text = "alt+F12";
+            this.label1.Text = "alt+F12; alt+方向键";
             // 
             // mainLabel
             // 
             this.mainLabel.AutoSize = true;
-            this.mainLabel.Font = new System.Drawing.Font("宋体", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.mainLabel.Location = new System.Drawing.Point(7, 22);
+            this.mainLabel.Font = new System.Drawing.Font("华文中宋", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.mainLabel.Location = new System.Drawing.Point(7, 28);
             this.mainLabel.Name = "mainLabel";
-            this.mainLabel.Size = new System.Drawing.Size(72, 27);
+            this.mainLabel.Size = new System.Drawing.Size(66, 31);
             this.mainLabel.TabIndex = 3;
             this.mainLabel.Text = "test";
             // 

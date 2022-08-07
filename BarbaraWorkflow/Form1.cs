@@ -7,10 +7,10 @@ namespace BarbaraWorkflow
     {
         private bool IsOptimized { get; set; } = false;
 
-        KeyboardHook OptimizeHook { get; set; }
+        KeyboardHook OptimizeHotkey { get; set; }
 
-        KeyboardHook AltWHook { get; set; }
-        KeyboardHook AltShiftWHook { get; set; }
+        KeyboardHook ForwardHotkey { get; set; }
+        KeyboardHook BackwardHotkey { get; set; }
 
         HintStatus hintStatus { get; set; }
 
@@ -18,37 +18,37 @@ namespace BarbaraWorkflow
         {
             InitializeComponent();
 
-            OptimizeHook = new KeyboardHook();
-            OptimizeHook.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.F12);
-            OptimizeHook.KeyPressed += OptimizeHook_KeyPressed;
+            OptimizeHotkey = new KeyboardHook();
+            OptimizeHotkey.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.F12);
+            OptimizeHotkey.KeyPressed += OptimizeHotkey_KeyPressed;
 
 
-            AltWHook = new KeyboardHook();
-            AltWHook.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.Right);
-            AltWHook.KeyPressed += AltWHook_KeyPressed;
+            ForwardHotkey = new KeyboardHook();
+            ForwardHotkey.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.Right);
+            ForwardHotkey.KeyPressed += ForwardHotkey_KeyPressed;
 
-            AltShiftWHook = new KeyboardHook();
-            AltShiftWHook.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.Left);
-            AltShiftWHook.KeyPressed += AltShiftWHook_KeyPressed;
+            BackwardHotkey = new KeyboardHook();
+            BackwardHotkey.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.Left);
+            BackwardHotkey.KeyPressed += BackwardHotkey_KeyPressed;
 
             hintStatus = HintStatus.CreateFromText(File.ReadAllText(@"C:\Users\ThePlayer\Desktop\repos\BarbaraWorkflow\routes\minus6.txt"));
             mainLabel.Text = hintStatus.GetCurrentHint();
 
         }
 
-        private void AltShiftWHook_KeyPressed(object? sender, KeyPressedEventArgs e)
+        private void BackwardHotkey_KeyPressed(object? sender, KeyPressedEventArgs e)
         {
             hintStatus.TryBackward();
             mainLabel.Text = hintStatus.GetCurrentHint();
         }
 
-        private void AltWHook_KeyPressed(object? sender, KeyPressedEventArgs e)
+        private void ForwardHotkey_KeyPressed(object? sender, KeyPressedEventArgs e)
         {
             hintStatus.TryForward();
             mainLabel.Text = hintStatus.GetCurrentHint();
         }
 
-        private void OptimizeHook_KeyPressed(object? sender, KeyPressedEventArgs e)
+        private void OptimizeHotkey_KeyPressed(object? sender, KeyPressedEventArgs e)
         {
             ToggleOptimization();
         }
