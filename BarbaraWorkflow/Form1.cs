@@ -108,7 +108,7 @@ namespace BarbaraWorkflow
             {
                 text = File.ReadAllText(filename);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 text = e.Message;
             }
@@ -130,6 +130,26 @@ namespace BarbaraWorkflow
             }
 
             LoadTxtFile(loadtxtDialog.FileName);
+        }
+
+        private void Form1_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        private void Form1_DragDrop(object sender, DragEventArgs e)
+        {
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+            var file = files.FirstOrDefault();
+
+            if (!string.IsNullOrEmpty(file))
+            {
+                LoadTxtFile(file);
+            }
         }
     }
 }

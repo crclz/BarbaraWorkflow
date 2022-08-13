@@ -32,6 +32,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.mainLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.loadtxtButton = new System.Windows.Forms.Button();
             this.loadtxtDialog = new System.Windows.Forms.OpenFileDialog();
             this.panel1.SuspendLayout();
@@ -70,12 +71,22 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.loadtxtButton);
             this.panel1.Controls.Add(this.topmostButton);
             this.panel1.Location = new System.Drawing.Point(12, 183);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(375, 100);
             this.panel1.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(84, 35);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(56, 17);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "支持拖放";
             // 
             // loadtxtButton
             // 
@@ -93,6 +104,7 @@
             // 
             // Form1
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 439);
@@ -102,7 +114,10 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -116,5 +131,6 @@
         private Panel panel1;
         private OpenFileDialog loadtxtDialog;
         private Button loadtxtButton;
+        private Label label2;
     }
 }
