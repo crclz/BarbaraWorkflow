@@ -32,9 +32,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.mainLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.settingMessageLabel = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.loadtxtButton = new System.Windows.Forms.Button();
             this.loadtxtDialog = new System.Windows.Forms.OpenFileDialog();
+            this.button3 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,13 +75,46 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button3);
+            this.panel1.Controls.Add(this.settingMessageLabel);
+            this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.loadtxtButton);
             this.panel1.Controls.Add(this.topmostButton);
             this.panel1.Location = new System.Drawing.Point(12, 183);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(375, 100);
+            this.panel1.Size = new System.Drawing.Size(807, 100);
             this.panel1.TabIndex = 4;
+            // 
+            // settingMessageLabel
+            // 
+            this.settingMessageLabel.AutoSize = true;
+            this.settingMessageLabel.Location = new System.Drawing.Point(291, 6);
+            this.settingMessageLabel.Name = "settingMessageLabel";
+            this.settingMessageLabel.Size = new System.Drawing.Size(43, 17);
+            this.settingMessageLabel.TabIndex = 9;
+            this.settingMessageLabel.Text = "label3";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(210, 32);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 8;
+            this.button2.Text = "显示配置";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(210, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "编辑配置";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // label2
             // 
@@ -101,6 +138,16 @@
             // loadtxtDialog
             // 
             this.loadtxtDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.loadtxtDialog_FileOk);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(210, 61);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 10;
+            this.button3.Text = "重置配置";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Form1
             // 
@@ -133,5 +180,9 @@
         private OpenFileDialog loadtxtDialog;
         private Button loadtxtButton;
         private Label label2;
+        private Button button1;
+        private Button button2;
+        private Label settingMessageLabel;
+        private Button button3;
     }
 }

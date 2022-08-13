@@ -1,6 +1,7 @@
 using BarbaraWorkflow.App.Services;
 using BarbaraWorkflow.Domain.Models;
 using BarbaraWorkflow.Infra;
+using System.Diagnostics;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
@@ -166,12 +167,31 @@ namespace BarbaraWorkflow
         private void ObserveThings()
         {
             configService.FontSizeSS.TakeUntil(formDestroySS).ObserveOn(SynchronizationContext.Current!)
-                .Subscribe(p => mainLabel.Font = new Font(mainLabel.Font.FontFamily, p,GraphicsUnit.Pixel));
+                .Subscribe(p => mainLabel.Font = new Font(mainLabel.Font.FontFamily, p, GraphicsUnit.Pixel));
+
+            configService.SettingMessageSS.TakeUntil(formDestroySS)
+                .DistinctUntilChanged().ObserveOn(SynchronizationContext.Current!)
+                .Subscribe(p => settingMessageLabel.Text = p);
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             formDestroySS.OnNext(1);
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", new string[] { configService.GetSettingFile().FullName });
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", $@"/select,""{configService.GetSettingFile().FullName}""");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            configService.GetSettingFile().Delete();
         }
     }
 }
