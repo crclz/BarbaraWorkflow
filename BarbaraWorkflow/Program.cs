@@ -1,3 +1,6 @@
+
+using BarbaraWorkflow.App.Services;
+
 namespace BarbaraWorkflow
 {
     internal static class Program
@@ -11,7 +14,10 @@ namespace BarbaraWorkflow
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+
+            var form1 = new Form1(MyConfigService.Singleton);
+
+            Application.Run(form1);
         }
     }
 }

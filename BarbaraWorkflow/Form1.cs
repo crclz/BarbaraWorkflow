@@ -1,20 +1,17 @@
+using BarbaraWorkflow.App.Services;
 using BarbaraWorkflow.Domain.Models;
 using BarbaraWorkflow.Infra;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 
 namespace BarbaraWorkflow
 {
     public partial class Form1 : Form
     {
-        private bool IsOptimized { get; set; } = false;
+        private readonly MyConfigService configService;
 
-        KeyboardHook OptimizeHotkey { get; set; }
 
-        KeyboardHook ForwardHotkey { get; set; }
-        KeyboardHook BackwardHotkey { get; set; }
-
-        HintStatus hintStatus { get; set; }
-
-        public Form1()
+        public Form1(MyConfigService configService)
         {
             InitializeComponent();
 
@@ -30,9 +27,26 @@ namespace BarbaraWorkflow
             BackwardHotkey = new KeyboardHook();
             BackwardHotkey.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.Left);
             BackwardHotkey.KeyPressed += BackwardHotkey_KeyPressed;
+            this.configService = configService;
+        }
 
 
+        private bool IsOptimized { get; set; } = false;
 
+        KeyboardHook OptimizeHotkey { get; set; }
+
+        KeyboardHook ForwardHotkey { get; set; }
+        KeyboardHook BackwardHotkey { get; set; }
+
+        HintStatus hintStatus { get; set; }
+
+        private Subject<int> formDestroySS = new Subject<int>();
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            SetTopmost(true);
+
+            ObserveThings();
         }
 
         private void BackwardHotkey_KeyPressed(object? sender, KeyPressedEventArgs e)
@@ -52,10 +66,7 @@ namespace BarbaraWorkflow
             ToggleOptimization();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            SetTopmost(true);
-        }
+
 
         private void SetTopmost(bool topMost)
         {
@@ -150,6 +161,17 @@ namespace BarbaraWorkflow
             {
                 LoadTxtFile(file);
             }
+        }
+
+        private void ObserveThings()
+        {
+            configService.FontSizeSS.TakeUntil(formDestroySS).ObserveOn(SynchronizationContext.Current!)
+                .Subscribe(p => mainLabel.Font = new Font(mainLabel.Font.FontFamily, p,GraphicsUnit.Pixel));
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            formDestroySS.OnNext(1);
         }
     }
 }
