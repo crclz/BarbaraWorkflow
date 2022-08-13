@@ -31,11 +31,15 @@
             this.topmostButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.mainLabel = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.loadtxtButton = new System.Windows.Forms.Button();
+            this.loadtxtDialog = new System.Windows.Forms.OpenFileDialog();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // topmostButton
             // 
-            this.topmostButton.Location = new System.Drawing.Point(7, 216);
+            this.topmostButton.Location = new System.Drawing.Point(3, 3);
             this.topmostButton.Name = "topmostButton";
             this.topmostButton.Size = new System.Drawing.Size(75, 23);
             this.topmostButton.TabIndex = 0;
@@ -64,18 +68,41 @@
             this.mainLabel.TabIndex = 3;
             this.mainLabel.Text = "test";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.loadtxtButton);
+            this.panel1.Controls.Add(this.topmostButton);
+            this.panel1.Location = new System.Drawing.Point(12, 183);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(375, 100);
+            this.panel1.TabIndex = 4;
+            // 
+            // loadtxtButton
+            // 
+            this.loadtxtButton.Location = new System.Drawing.Point(3, 32);
+            this.loadtxtButton.Name = "loadtxtButton";
+            this.loadtxtButton.Size = new System.Drawing.Size(75, 23);
+            this.loadtxtButton.TabIndex = 5;
+            this.loadtxtButton.Text = "打开文件";
+            this.loadtxtButton.UseVisualStyleBackColor = true;
+            this.loadtxtButton.Click += new System.EventHandler(this.loadtxtButton_Click);
+            // 
+            // loadtxtDialog
+            // 
+            this.loadtxtDialog.FileOk += new System.ComponentModel.CancelEventHandler(this.loadtxtDialog_FileOk);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 439);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.mainLabel);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.topmostButton);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form_KeyDown);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -86,5 +113,8 @@
         private Button topmostButton;
         private Label label1;
         private Label mainLabel;
+        private Panel panel1;
+        private OpenFileDialog loadtxtDialog;
+        private Button loadtxtButton;
     }
 }

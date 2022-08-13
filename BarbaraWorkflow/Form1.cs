@@ -31,8 +31,7 @@ namespace BarbaraWorkflow
             BackwardHotkey.RegisterHotKey(Infra.ModifierKeys.Alt, Keys.Left);
             BackwardHotkey.KeyPressed += BackwardHotkey_KeyPressed;
 
-            hintStatus = HintStatus.CreateFromText(File.ReadAllText(@"C:\Users\ThePlayer\Desktop\repos\BarbaraWorkflow\routes\ •“≈ŒÔ-±À“Ù–«€Û-Aœﬂ-BV1q44y137NC.txt"));
-            mainLabel.Text = hintStatus.GetCurrentHint();
+
 
         }
 
@@ -80,7 +79,7 @@ namespace BarbaraWorkflow
 
             if (IsOptimized)
             {
-                topmostButton.Hide();
+                panel1.Hide();
                 BackColor = Color.Black;
                 TransparencyKey = Color.Black;
                 ControlBox = false;
@@ -91,7 +90,7 @@ namespace BarbaraWorkflow
             else
             {
 
-                topmostButton.Show();
+                panel1.Show();
                 BackColor = SystemColors.Control;
                 TransparencyKey = Color.Empty;
                 ControlBox = true;
@@ -101,8 +100,36 @@ namespace BarbaraWorkflow
             }
         }
 
-        private void Form_KeyDown(object sender, KeyEventArgs e)
+
+        public void LoadTxtFile(string filename)
         {
+            string text;
+            try
+            {
+                text = File.ReadAllText(filename);
+            }
+            catch(Exception e)
+            {
+                text = e.Message;
+            }
+
+            hintStatus = HintStatus.CreateFromText(text);
+            mainLabel.Text = hintStatus.GetCurrentHint();
+        }
+
+        private void loadtxtButton_Click(object sender, EventArgs e)
+        {
+            loadtxtDialog.ShowDialog();
+        }
+
+        private void loadtxtDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (loadtxtDialog.FileName == "")
+            {
+                return;
+            }
+
+            LoadTxtFile(loadtxtDialog.FileName);
         }
     }
 }
