@@ -10,36 +10,41 @@ using System.Threading.Tasks;
 
 namespace BarbaraWorkflow.App.Services
 {
-    public class MyConfigService
+    public class MyConfigService : IDisposable
     {
         private DirectoryInfo store = new DirectoryInfo(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/BarbaraWorkflow");
 
-        private BehaviorSubject<ApplicationSetting> setting { get; } = new BehaviorSubject<ApplicationSetting>(new ApplicationSetting());
-        public Subject<string> SettingMessageSS { get; } = new Subject<string>();
+        private Subject<int> disposeSS = new Subject<int>();
+        private bool disposedValue;
+
+        private IObservable<(ApplicationSetting, string)> settingUnchecked { get; }
+        private IObservable<ApplicationSetting> setting { get; }
+        public IObservable<string> SettingMessageSS { get; } = new Subject<string>();
         public IObservable<MainLabelStyle> MainLabelStyleSS { get; }
 
         public MyConfigService()
         {
-            LoadApplicationSetting();
+            settingUnchecked = Observable.Interval(TimeSpan.FromSeconds(0.5))
+                .TakeUntil(disposeSS)
+                .Select(p => ReadApplicationSetting());
+
+            setting = settingUnchecked.Where(p => string.IsNullOrEmpty(p.Item2)).Select(p => p.Item1);
 
             MainLabelStyleSS = setting.Select(p => p.MainLabelStyle).DistinctUntilChanged();
 
-            var th = new Thread(() =>
+            SettingMessageSS = settingUnchecked.Select(p =>
             {
-                while (true)
+                if (string.IsNullOrEmpty(p.Item2))
                 {
-                    LoadApplicationSetting();
-                    Thread.Sleep(1000);
+                    return "配置文件有效";
+                }
+                else
+                {
+                    return $"配置获取失败，尝试删除配置文件。Message：{p.Item2}";
                 }
             });
-
-            th.IsBackground = true;
-
-            th.Start();
         }
-
-        // TODO: descructor timer
 
         public static MyConfigService Singleton { get; } = initSingleton();
 
@@ -75,19 +80,42 @@ namespace BarbaraWorkflow.App.Services
             return file;
         }
 
-        public void LoadApplicationSetting()
+        public (ApplicationSetting, string) ReadApplicationSetting()
         {
             try
             {
+
                 var text = File.ReadAllText(GetSettingFile().FullName);
-                var sett = JsonConvert.DeserializeObject<ApplicationSetting>(text)!;
-                setting.OnNext(sett);
-                SettingMessageSS.OnNext("配置文件有效");
+                var st = JsonConvert.DeserializeObject<ApplicationSetting>(text)!;
+                return (st, "");
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                SettingMessageSS.OnNext($"配置获取失败，尝试删除配置文件。错误：{e.Message}");
+                return (new ApplicationSetting(), ex.Message);
             }
+
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    disposeSS.OnNext(1);
+                }
+
+                // TODO: 释放未托管的资源(未托管的对象)并重写终结器
+                // TODO: 将大型字段设置为 null
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            // 不要更改此代码。请将清理代码放入“Dispose(bool disposing)”方法中
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
