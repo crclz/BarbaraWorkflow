@@ -17,15 +17,13 @@ namespace BarbaraWorkflow.App.Services
 
         private BehaviorSubject<ApplicationSetting> setting { get; } = new BehaviorSubject<ApplicationSetting>(new ApplicationSetting());
         public Subject<string> SettingMessageSS { get; } = new Subject<string>();
-        public IObservable<int> FontSizeSS { get; }
-        public IObservable<string> FontFamilySS { get; }
+        public IObservable<MainLabelStyle> MainLabelStyleSS { get; }
 
         public MyConfigService()
         {
             LoadApplicationSetting();
 
-            FontSizeSS = setting.Select(p => p.FontSize).DistinctUntilChanged();
-            FontFamilySS = setting.Select(p => p.FontFamily).DistinctUntilChanged();
+            MainLabelStyleSS = setting.Select(p => p.MainLabelStyle).DistinctUntilChanged();
 
             var th = new Thread(() =>
             {
