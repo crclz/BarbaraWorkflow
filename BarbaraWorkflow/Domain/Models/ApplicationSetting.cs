@@ -15,6 +15,6 @@ namespace BarbaraWorkflow.Domain.Models
         string FontFamily = "华文中宋",
         int FontSize = 30,
         bool IsBold = false,
-        string Color = ""
+        string Color = "LightYellow"
     );
 }

@@ -31,8 +31,9 @@ namespace BarbaraWorkflow
             this.configService = configService;
         }
 
+        bool IsOptimized = false;
+        BehaviorSubject<bool> IsOptimizedSS = new BehaviorSubject<bool>(false);
 
-        private bool IsOptimized { get; set; } = false;
 
         KeyboardHook OptimizeHotkey { get; set; }
 
@@ -41,7 +42,7 @@ namespace BarbaraWorkflow
 
         HintStatus hintStatus { get; set; }
 
-        private Subject<int> formDestroySS = new Subject<int>();
+        Subject<int> formDestroySS = new Subject<int>();
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -88,6 +89,7 @@ namespace BarbaraWorkflow
         private void ToggleOptimization()
         {
             IsOptimized = !IsOptimized;
+            IsOptimizedSS.OnNext(IsOptimized);
 
             if (IsOptimized)
             {
@@ -96,8 +98,6 @@ namespace BarbaraWorkflow
                 TransparencyKey = Color.Black;
                 ControlBox = false;
                 FormBorderStyle = FormBorderStyle.None;
-
-                mainLabel.ForeColor = Color.LightYellow;
             }
             else
             {
@@ -107,8 +107,6 @@ namespace BarbaraWorkflow
                 TransparencyKey = Color.Empty;
                 ControlBox = true;
                 FormBorderStyle = FormBorderStyle.Sizable;
-
-                mainLabel.ForeColor = Color.Black;
             }
         }
 
@@ -169,23 +167,41 @@ namespace BarbaraWorkflow
             //configService.FontSizeSS.TakeUntil(formDestroySS).ObserveOn(SynchronizationContext.Current!)
             //    .Subscribe(p => mainLabel.Font = new Font(mainLabel.Font.FontFamily, p, GraphicsUnit.Pixel));
 
-            configService.MainLabelStyleSS
+            Observable.CombineLatest(configService.MainLabelStyleSS,
+                                     IsOptimizedSS,
+                                     (mainLabelStyle, optim) => (mainLabelStyle, optim))
                 .TakeUntil(formDestroySS).ObserveOn(SynchronizationContext.Current!)
                 .Subscribe(p =>
                 {
+                    var style = p.mainLabelStyle;
+
                     var fontStyle = FontStyle.Regular;
-                    if (p.IsBold)
+                    if (style.IsBold)
                     {
                         fontStyle |= FontStyle.Bold;
                     }
-                    var font = new Font(p.FontFamily, p.FontSize, fontStyle, GraphicsUnit.Pixel);
+                    var font = new Font(style.FontFamily, style.FontSize, fontStyle, GraphicsUnit.Pixel);
                     mainLabel.Font = font;
+
+                    // color
+                    if (p.optim)
+                    {
+                        var c = Color.FromName(p.mainLabelStyle.Color);
+                        if (c.R == 0 && c.G == 0 && c.B == 0)
+                        {
+                            c = Color.Gray;
+                        }
+                        mainLabel.ForeColor = c;
+                    }
+                    else
+                    {
+                        mainLabel.ForeColor = Color.Black;
+                    }
                 });
 
             configService.SettingMessageSS.TakeUntil(formDestroySS)
                 .DistinctUntilChanged().ObserveOn(SynchronizationContext.Current!)
                 .Subscribe(p => settingMessageLabel.Text = p);
-
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
