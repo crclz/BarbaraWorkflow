@@ -16,14 +16,16 @@ namespace BarbaraWorkflow.App.Services
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "/BarbaraWorkflow");
 
         private BehaviorSubject<ApplicationSetting> setting { get; } = new BehaviorSubject<ApplicationSetting>(new ApplicationSetting());
-        public IObservable<int> FontSizeSS { get; }
         public Subject<string> SettingMessageSS { get; } = new Subject<string>();
+        public IObservable<int> FontSizeSS { get; }
+        public IObservable<string> FontFamilySS { get; }
 
         public MyConfigService()
         {
             LoadApplicationSetting();
 
             FontSizeSS = setting.Select(p => p.FontSize).DistinctUntilChanged();
+            FontFamilySS = setting.Select(p => p.FontFamily).DistinctUntilChanged();
 
             var th = new Thread(() =>
             {
@@ -38,6 +40,8 @@ namespace BarbaraWorkflow.App.Services
 
             th.Start();
         }
+
+        // TODO: descructor timer
 
         public static MyConfigService Singleton { get; } = initSingleton();
 

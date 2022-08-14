@@ -9,5 +9,6 @@ namespace BarbaraWorkflow.Domain.Models
     public class ApplicationSetting
     {
         public int FontSize { get; set; } = 30;
+        public string FontFamily { get; set; } = "华文中宋";
     }
 }

@@ -166,8 +166,18 @@ namespace BarbaraWorkflow
 
         private void ObserveThings()
         {
-            configService.FontSizeSS.TakeUntil(formDestroySS).ObserveOn(SynchronizationContext.Current!)
-                .Subscribe(p => mainLabel.Font = new Font(mainLabel.Font.FontFamily, p, GraphicsUnit.Pixel));
+            //configService.FontSizeSS.TakeUntil(formDestroySS).ObserveOn(SynchronizationContext.Current!)
+            //    .Subscribe(p => mainLabel.Font = new Font(mainLabel.Font.FontFamily, p, GraphicsUnit.Pixel));
+
+            Observable.CombineLatest(configService.FontSizeSS,
+                                     configService.FontFamilySS,
+                                     (fontSize, fontFamily) => (fontSize, fontFamily))
+                .TakeUntil(formDestroySS).ObserveOn(SynchronizationContext.Current!)
+                .Subscribe(p =>
+                {
+                    var font = new Font(p.fontFamily, p.fontSize, GraphicsUnit.Pixel);
+                    mainLabel.Font = font;
+                });
 
             configService.SettingMessageSS.TakeUntil(formDestroySS)
                 .DistinctUntilChanged().ObserveOn(SynchronizationContext.Current!)
