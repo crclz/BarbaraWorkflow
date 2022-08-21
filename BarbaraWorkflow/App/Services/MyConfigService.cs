@@ -1,4 +1,5 @@
 ﻿using BarbaraWorkflow.Domain.Models;
+using BarbaraWorkflow.Infra;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -25,9 +26,8 @@ namespace BarbaraWorkflow.App.Services
 
         public MyConfigService()
         {
-            settingUnchecked = Observable.Interval(TimeSpan.FromSeconds(0.5))
-                .TakeUntil(disposeSS)
-                .Select(p => ReadApplicationSetting());
+            settingUnchecked = new FileContentWatcher(GetSettingFile().FullName)
+                .Select(p => ReadApplicationSetting(p));
 
             setting = settingUnchecked.Where(p => string.IsNullOrEmpty(p.Item2)).Select(p => p.Item1);
 
@@ -80,13 +80,15 @@ namespace BarbaraWorkflow.App.Services
             return file;
         }
 
-        public (ApplicationSetting, string) ReadApplicationSetting()
+        public (ApplicationSetting, string) ReadApplicationSetting(string content)
         {
             try
             {
-
-                var text = File.ReadAllText(GetSettingFile().FullName);
-                var st = JsonConvert.DeserializeObject<ApplicationSetting>(text)!;
+                var st = JsonConvert.DeserializeObject<ApplicationSetting>(content)!;
+                if (st == null)
+                {
+                    throw new Exception("Setting is null");
+                }
                 return (st, "");
             }
             catch (Exception ex)
