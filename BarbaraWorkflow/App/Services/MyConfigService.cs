@@ -27,7 +27,8 @@ namespace BarbaraWorkflow.App.Services
         public MyConfigService()
         {
             settingUnchecked = new FileContentWatcher(GetSettingFile().FullName)
-                .Select(p => ReadApplicationSetting(p));
+                .Select(p => ReadApplicationSetting(p))
+                .Replay(1).RefCount();
 
             setting = settingUnchecked.Where(p => string.IsNullOrEmpty(p.Item2)).Select(p => p.Item1);
 

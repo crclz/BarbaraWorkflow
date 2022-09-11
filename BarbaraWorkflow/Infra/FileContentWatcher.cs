@@ -37,6 +37,7 @@ namespace BarbaraWorkflow.Infra
             watcher.Filter = Path.GetFileName(filename);
             watcher.IncludeSubdirectories = false;
             Filename = filename;
+
         }
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
@@ -76,6 +77,11 @@ namespace BarbaraWorkflow.Infra
 
             Refresh();
 
+            if (Subscribers.Count == 1)
+            {
+                EmitChange(File.ReadAllText(Filename));
+            }
+
             return new UnsubscribeHandler(() => Unsubscribe(id));
         }
 
@@ -94,6 +100,7 @@ namespace BarbaraWorkflow.Infra
         {
             foreach (var subscriber in Subscribers)
             {
+                Console.WriteLine("Next content");
                 subscriber.Value.OnNext(content);
             }
         }
